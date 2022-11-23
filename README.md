@@ -1,33 +1,30 @@
 # EAC Log Signer
 
-This is a transparent implementation of the Exact Audio Copy log checksum algorithm in Python 3.7+. Includes an option to fix those pesky edited logs.
+This is a transparent implementation of the Exact Audio Copy log checksum algorithm in C#. Includes an option to fix those pesky edited logs.
 
 # Installation
 
-Only depends on `pprp` (for an implementation of Rijndael-256 with variable block sizes):
-
-    $ pip install pprp==0.2.6
-    $ curl https://raw.githubusercontent.com/puddly/eac_logsigner/master/eac.py > eac_logsigner
-    $ chmod +x eac_logsigner
+Download from the [releases page](https://github.com/tautcony/eac_logsigner/releases) and extract the zip file. Run the executable.
 
 # Usage
 
-    usage: eac.py [-h] {verify,sign} ...
+```
+EAC Log Signer 1.0.0
+Copyright (c) 2022 TautCony
 
-    Verifies and resigns EAC logs
+  verify     Verify a log
 
-    positional arguments:
-      {verify,sign}
-        verify       verify a log
-        sign         sign or fix an existing log
+  sign       Sign or fix an existing log
 
-    optional arguments:
-      -h, --help     show this help message and exit
+  help       Display more information on a specific command.
+
+  version    Display version information.
+```
 
 # Example
 
-    $ python3 eac.py sign bad.log good.log
-    $ python3 eac.py verify *.log
+    $ eac_logsigner sign bad.log good.log
+    $ eac_logsigner verify *.log
     log1.log:  OK
     log2.log:  OK
     log3.log:  Malformed
