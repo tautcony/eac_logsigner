@@ -1,0 +1,37 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        dotnet-version: [ '6.x' ]
+        configuration: [ Release ]
+        runtime-identifier: [ 'win-x64', 'linux-x64', 'osx-x64' ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore --runtime ${{ matrix.runtime-identifier }}
+
+    - name: Publish the application
+      run: dotnet publish eac_logsigner --configuration ${{ matrix.configuration }} --no-restore --runtime ${{ matrix.runtime-identifier }} --self-contained false
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Package-${{ matrix.runtime-identifier }}-${{ matrix.configuration }}
+        path: |
+          eac_logsigner/bin/${{ matrix.configuration }}/net6.0/${{ matrix.runtime-identifier }}/publish/*
