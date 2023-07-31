@@ -50,11 +50,11 @@ public static class LogChecker
             version = mainVersion + "." + (betaVersion.Success ? betaVersion.Value : "999");
         }
 
-        var signatures = Regex.Matches(text, "====.* ([0-9A-F]{64}) ====");
+        var signatures = Regex.Matches(text, "\r\n\r\n====.* ([0-9A-F]{64}) ====(?:\r\n)?");
         if (signatures.Count == 0)
             return (text, version, "");
         // get last signature
-        var signature = signatures[^1].Groups[1].Value;
+        var signature = signatures[^1].Groups[1].Value.Trim();
         var fullLine = signatures[^1].Value;
 
         var unsignedText = text.Replace(fullLine, "");
